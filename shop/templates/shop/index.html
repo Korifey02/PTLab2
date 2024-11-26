@@ -3,21 +3,59 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Товары</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .out-of-stock {
+            color: red;
+        }
+        .buy-link {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .buy-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div>
-        <h3>Список</h3>
+        <h3>Список товаров</h3>
         <table>
             <tr>
-                <td><p>Наименование</p></td>
-                <td><p>Цена</p></td>
-                <td></td>
+                <th>Наименование</th>
+                <th>Цена</th>
+                <th>Остаток товара</th>
+                <th>Действие</th>
             </tr>
             {% for p in products %}
                 <tr>
-                    <td><p>{{ p.name }}</p></td>
-                    <td><p>{{ p.price }}</p></td>
-                    <td><p><a href="/buy/{{ p.id }}">Купить</a></p></td>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.price }}</td>
+                    <td>{{ p.rest }}</td>
+                    <td>
+                        {% if p.rest > 0 %}
+                            <a class="buy-link" href="/buy/{{ p.id }}">Купить</a>
+                        {% else %}
+                            <span class="out-of-stock">Нет в наличии</span>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </table>

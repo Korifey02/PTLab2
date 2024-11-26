@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView
 
 from .models import Product, Purchase
 
+
 # Create your views here.
 def index(request):
     products = Product.objects.all()
@@ -17,5 +18,11 @@ class PurchaseCreate(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
+
+        product = self.object.product
+        if product.rest > 0:
+            product.rest -= 1
+            product.save()
+
         return HttpResponse(f'Спасибо за покупку, {self.object.person}!')
 
